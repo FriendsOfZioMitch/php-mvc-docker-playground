@@ -1,4 +1,25 @@
-# Build docker
+# ZioMitch's php MVC frameworks playground
+
+Note: this is a work in progress.
+
+This project is aimed to provide a playground for **local development** with various php MVC frameworks.
+
+It provision a common infrastructure to start MVC based projects with a **single click build**, including databases, httpd daemon and the php interpreter.
+
+For any framework will come detailed instructions to import an existing project or create a new project from scratch.
+
+# Clone the project
+
+We are assuming that the host machine is Linux.
+We also assume that it comes with Docker and Docker compose installed.
+
+Start cloning the project in your current user home directory folder:
+
+```bash
+git clone git@github.com:FriendsOfZioMitch/php-mvc-docker-playground.git
+```
+
+# Build Docker
 
 ```bash
 docker-compose up -d --force-recreate --remove-orphans --build
@@ -15,7 +36,7 @@ rm ./app_source/.gitkeep
 docker-compose run composer composer create-project --prefer-dist laravel/laravel .
 ```
 
-Assign write permissions to your current user on the app_source directory:
+Reassign write permissions to your current user on the app_source directory:
 
 ```bash
 sudo chown -R you:you app_source
@@ -54,3 +75,16 @@ If you just want to run an existing laravel project:
 ```bash
 todo
 ```
+
+# Copyright notes
+
+*Docker is a Copyright © 2018 Docker Inc. All rights reserved.*
+
+*Laravel is a trademark of Taylor Otwell. Copyright © Taylor Otwell.*
+
+*MariaDB is a 2018 Copyright MariaDB Foundation.*
+
+*MySQL is a © 2018 Copyright, Oracle Corporation and/or its affiliates.*
+
+*NGINX is a Copyright © NGINX Inc. All rights reserved.*
+
