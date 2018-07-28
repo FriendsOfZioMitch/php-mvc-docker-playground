@@ -1,0 +1,11 @@
+# real env file
+.env
+
+# IDE files
+.idea
+
+# logs
+/log/supervisord/nginx/nginx.log
+/log/supervisord/nginx/nginx.pid
+/log/supervisord/php_fpm/php_fpm.log
+/log/supervisord/php_fpm/php_fpm.pid

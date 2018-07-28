@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: "${DOCKER_FILES_DIR}${PHP_FPM_DOCKER_FILES_DIR}"
+      dockerfile: '.dockerfile'
+    working_dir: "${NGINX_HTML_FOLDER}"
+    volumes:
+      - "./app_source:${NGINX_HTML_FOLDER}"
+      - "./log/supervisord/php_fpm:${PHP_FPM_SUPERVISORD_LOGS_FOLDER}"
+    links:
+      - database
+
+  composer:
+     image: composer
+     restart: 'no'
+     volumes:
+      - "./app_source:${COMPOSER_FOLDER}"
+     command: install
+
+  httpd:
+    build:
+      context: "${DOCKER_FILES_DIR}${NGINX_DOCKER_FILES_DIR}"
+      dockerfile: '.dockerfile'
+    working_dir: "${NGINX_HTML_FOLDER}"
+    volumes:
+      - "./app_source:${NGINX_HTML_FOLDER}"
+      - "./log/supervisord/nginx:${NGINX_SUPERVISORD_LOGS_FOLDER}"
+    ports:
+      - "${DOCKER_NGINX_HOST_PORT}:${NGINX_PORT}"
+    environment:
+      - NGINX_HOST="${NGINX_HOST}"
+      - NGINX_PORT=${NGINX_PORT}
+    restart: always
+
+  database:
+    image: mariadb
+    restart: 'always'
+    volumes:
+      - "${DOCKER_FILES_DIR}${MYSQL_DOCKER_FILES_DIR}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    ports:
+      - "${DOCKER_MYSQL_HOST_PORT}:${MYSQL_PORT}"
+    environment:
+      - MYSQL_DATABASE="${MYSQL_DATABASE}"
+      - MYSQL_USER="${MYSQL_USER}"
+      - MYSQL_PASSWORD="${MYSQL_PASSWORD}"
+      - MYSQL_RANDOM_ROOT_PASSWORD='yes'
+
+volumes:
+  app_source:
