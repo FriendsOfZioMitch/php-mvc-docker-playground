@@ -30,7 +30,7 @@ services:
     ports:
       - "${DOCKER_NGINX_HOST_PORT}:${NGINX_PORT}"
     environment:
-      - NGINX_HOST="${NGINX_HOST}"
+      - NGINX_HOST=${NGINX_HOST}
       - NGINX_PORT=${NGINX_PORT}
     restart: 'always'
     depends_on:
@@ -45,9 +45,9 @@ services:
       - "${DOCKER_MYSQL_HOST_PORT}:${MYSQL_PORT}"
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE="${MYSQL_DATABASE}"
-      - MYSQL_USER="${MYSQL_USER}"
-      - MYSQL_PASSWORD="${MYSQL_PASSWORD}"
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
 
 volumes:
   app_source:
