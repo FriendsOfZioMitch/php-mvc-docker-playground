@@ -32,8 +32,7 @@ docker-compose up -d --force-recreate --remove-orphans --build
 Install a fresh new Laravel project is easy, just launch the following commands:
 
 ```bash
-rm ./app_source/.gitkeep
-docker-compose run composer composer create-project --prefer-dist laravel/laravel .
+rm ./app_source/.gitkeep; docker-compose run composer composer create-project --prefer-dist laravel/laravel .
 ```
 
 Reassign write permissions to your current user on the app_source directory:
