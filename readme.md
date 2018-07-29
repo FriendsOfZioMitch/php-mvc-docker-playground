@@ -8,7 +8,7 @@ It provision a common infrastructure to start MVC based projects with a **single
 
 For any framework will come detailed instructions to import an existing project or create a new project from scratch.
 
-# Clone the project
+## Clone the project
 
 We are assuming that the host machine is Linux.
 We also assume that it comes with Docker and Docker compose installed.
@@ -19,13 +19,13 @@ Start cloning the project in your current user home directory folder:
 git clone git@github.com:FriendsOfZioMitch/php-mvc-docker-playground.git
 ```
 
-# Build Docker
+## Build Docker
 
 ```bash
 docker-compose up -d --force-recreate --remove-orphans --build
 ```
 
-# hosts file entries
+## Hosts file entries
 
 Map the host "framework-gym.local" to point 127.0.0.1 in your hosts file.
 
