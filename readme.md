@@ -22,9 +22,12 @@ git clone git@github.com:FriendsOfZioMitch/php-mvc-docker-playground.git
 # Build Docker
 
 ```bash
-docker network create web-network
 docker-compose up -d --force-recreate --remove-orphans --build
 ```
+
+# hosts file entries
+
+Map the host "framework-gym.local" to point 127.0.0.1 in your hosts file.
 
 ## MVC framework project configuration
 
@@ -33,18 +36,19 @@ docker-compose up -d --force-recreate --remove-orphans --build
 Install a fresh new Laravel project is easy, just launch the following commands:
 
 ```bash
-rm ./app_source/.gitkeep; docker-compose run composer composer create-project --prefer-dist laravel/laravel .
+mkdir ./app_source; docker-compose run composer composer create-project --prefer-dist laravel/laravel .
 ```
 
 Reassign write permissions to your current user on the app_source directory:
 
 ```bash
-sudo chown -R you:you app_source
+sudo chown -R <your_username>:<your_username> app_source
 ```
 
 Then configure Laravel to to use containerized database settings:
 
 ```dotenv
+DB_HOST=database
 DB_PORT=3306
 DB_DATABASE=playground-db
 DB_USERNAME=playground-usr
@@ -66,8 +70,30 @@ DB::connection()->getPdo();
 If everything is ok, this message should appear:
 
 ```text
-todo
+PDO {#2866
+ inTransaction: false,
+ attributes: {
+   CASE: NATURAL,
+   ERRMODE: EXCEPTION,
+   AUTOCOMMIT: 1,
+   PERSISTENT: false,
+   DRIVER_NAME: "mysql",
+   SERVER_INFO: "Uptime: 82  Threads: 7  Questions: 8  Slow queries: 0  Opens: 17  Flush tables: 1  Open tables: 11  Queries per second avg: 0.097",
+   ORACLE_NULLS: NATURAL,
+   CLIENT_VERSION: "mysqlnd 5.0.12-dev - 20150407 - $Id: 38fea24f2847fa7519001be390c98ae0acafe387 $",
+   SERVER_VERSION: "5.5.5-10.3.8-MariaDB-1:10.3.8+maria~bionic",
+   STATEMENT_CLASS: [
+     "PDOStatement",
+   ],
+   EMULATE_PREPARES: 0,
+   CONNECTION_STATUS: "database via TCP/IP",
+   DEFAULT_FETCH_MODE: BOTH,
+ },
+}
 ```
+
+Check if Laravel home is accessible from http server, pointing your browser to "http://framework-gym.local:8082/".
+
 
 ### Clone an existing Laravel project
 If you just want to run an existing laravel project:
