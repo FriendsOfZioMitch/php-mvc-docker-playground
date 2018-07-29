@@ -8,7 +8,9 @@ services:
     working_dir: "${NGINX_HTML_FOLDER}"
     volumes:
       - "./app_source:${NGINX_HTML_FOLDER}"
-      - "./log/supervisord/php_fpm:${PHP_FPM_SUPERVISORD_LOGS_FOLDER}"
+      - "./.log/supervisord/php_fpm:${PHP_FPM_SUPERVISORD_LOGS_FOLDER}"
+    depends_on:
+      - database
 
   composer:
      image: composer
@@ -24,20 +26,21 @@ services:
     working_dir: "${NGINX_HTML_FOLDER}"
     volumes:
       - "./app_source:${NGINX_HTML_FOLDER}"
-      - "./log/supervisord/nginx:${NGINX_SUPERVISORD_LOGS_FOLDER}"
+      - "./.log/supervisord/nginx:${NGINX_SUPERVISORD_LOGS_FOLDER}"
     ports:
       - "${DOCKER_NGINX_HOST_PORT}:${NGINX_PORT}"
     environment:
       - NGINX_HOST="${NGINX_HOST}"
       - NGINX_PORT=${NGINX_PORT}
     restart: 'always'
+    depends_on:
+      - app
 
   database:
     image: mariadb
     restart: 'always'
     volumes:
-      - ./storage/tmp/db:/var/lib/mysql:cached
-      - "${DOCKER_FILES_DIR}${MYSQL_DOCKER_FILES_DIR}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+      - ./.storage/tmp/db:/var/lib/mysql:cached
     ports:
       - "${DOCKER_MYSQL_HOST_PORT}:${MYSQL_PORT}"
     environment:
@@ -45,7 +48,6 @@ services:
       - MYSQL_DATABASE="${MYSQL_DATABASE}"
       - MYSQL_USER="${MYSQL_USER}"
       - MYSQL_PASSWORD="${MYSQL_PASSWORD}"
-      - MYSQL_RANDOM_ROOT_PASSWORD='yes'
 
 volumes:
   app_source:
