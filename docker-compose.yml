@@ -9,8 +9,6 @@ services:
     volumes:
       - "./app_source:${NGINX_HTML_FOLDER}"
       - "./log/supervisord/php_fpm:${PHP_FPM_SUPERVISORD_LOGS_FOLDER}"
-    links:
-      - database
 
   composer:
      image: composer
@@ -32,13 +30,16 @@ services:
     environment:
       - NGINX_HOST="${NGINX_HOST}"
       - NGINX_PORT=${NGINX_PORT}
-    restart: always
+    restart: 'always'
 
   database:
     image: mariadb
     restart: 'always'
     volumes:
+      - ./storage/tmp/db:/var/lib/mysql:cached
       - "${DOCKER_FILES_DIR}${MYSQL_DOCKER_FILES_DIR}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    ports:
+      - "${DOCKER_MYSQL_HOST_PORT}:${MYSQL_PORT}"
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE="${MYSQL_DATABASE}"

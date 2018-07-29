@@ -22,6 +22,7 @@ git clone git@github.com:FriendsOfZioMitch/php-mvc-docker-playground.git
 # Build Docker
 
 ```bash
+docker network create web-network
 docker-compose up -d --force-recreate --remove-orphans --build
 ```
 
